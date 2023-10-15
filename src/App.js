@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { selectUser } from "./slices/userSlice";
+import { useSelector } from "react-redux";
+import Logout from "./components/Logout";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+const App = () => {
+    const user = useSelector(selectUser);
+    console.log(user);
+
+    return (
+
+        <div className="app">
+            <Router>
+                <Routes>
+                    <Route path="/" element={
+                        //only show the logout component if the user is logged in
+                        user ? <Logout /> :
+                            <Login />
+
+                    } />
+                    <Route path="/logout" element={
+                        //only show the logout component if the user is logged in
+                        user ? <Logout /> : <Login />
+                    } />
+
+                    <Route path="/register" element={
+                        //only show the logout component if the user is logged in
+                        user ? <Logout /> : <Register />
+                    } />
+                </Routes>
+            </Router>
+        </div>
+
+    );
+};
 
 export default App;
